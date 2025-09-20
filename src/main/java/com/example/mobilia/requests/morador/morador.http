@@ -1,0 +1,47 @@
+### Listar morador por id
+GET http://localhost:8080/api/morador/1 HTTP/1.1
+
+### Listar moradores
+GET http://localhost:8080/api/morador HTTP/1.1
+
+### Criar morador
+POST http://localhost:8080/api/morador HTTP/1.1
+content-type: application/json
+
+{
+    "nome": "João da Silva",
+    "email": "joao@gmail.com",
+    "telefone": "11999999999",
+    "cpf": "12345678900",
+    "rg": "123456789",
+    "dtNascimento": "1990-01-01",
+    "ativo": true,
+    "dtVencimento": "2025-01-01",
+    "dtInicio": "2025-01-01",
+    "dtFim": "2025-01-01",
+    "unidade": 1,
+    "imovel": 5
+}
+
+### Atualizar morador
+PUT http://localhost:8080/api/morador/2 HTTP/1.1
+content-type: application/json
+
+{
+    "id": 2,
+    "nome": "João da Silva Ferreira",
+    "email": "joao@gmail.com",
+    "telefone": "11999999999",
+    "cpf": "12345678900",
+    "rg": "123456789",
+    "dtNascimento": "1990-01-01",
+    "ativo": true,
+    "dtVencimento": "2025-01-01",
+    "dtInicio": "2025-01-01",
+    "dtFim": "2025-01-01",
+    "unidade": 1,
+    "imovel": 5
+}
+
+### Deletar morador
+DELETE http://localhost:8080/api/morador/1 HTTP/1.1

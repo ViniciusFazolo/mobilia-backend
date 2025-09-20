@@ -1,5 +1,6 @@
 package com.example.mobilia.domain;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,6 +38,14 @@ public class User implements UserDetails {
     private String nome;
     private String pw;
     private Boolean ativo;
+
+    @Column(nullable = true, updatable = false)
+    private LocalDateTime dtCadastro;
+
+    @PrePersist
+    public void prePersist() {
+        this.dtCadastro = LocalDateTime.now();
+    }
 
     @ManyToOne
     private UserRole userRole;

@@ -18,11 +18,22 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class UserRole {
+public class Imovel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String descricao;
+    private Long id;
+    
+    // Identificacao
+    private String nome;
+    private String cep;
+    private String estado;
+    private String cidade;
+    private String bairro;
+    private String rua;
+    private Integer numero;
+    private String complemento;
+    private String imgUrl;
+    private Boolean ativo;
 
     @Column(nullable = true, updatable = false)
     private LocalDateTime dtCadastro;
@@ -30,9 +41,5 @@ public class UserRole {
     @PrePersist
     public void prePersist() {
         this.dtCadastro = LocalDateTime.now();
-    }
-
-    public UserRole(Integer id) {
-        this.id = id;
     }
 }

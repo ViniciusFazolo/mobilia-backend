@@ -1,0 +1,57 @@
+### Listar unidade por id
+GET http://localhost:8080/api/unidade/1 HTTP/1.1
+
+### Listar unidades
+GET http://localhost:8080/api/unidade HTTP/1.1
+
+### Criar unidade
+POST http://localhost:8080/api/unidade HTTP/1.1
+content-type: application/json
+
+{
+    "identificacao": "Apt 101",
+    "bloco": "",
+    "complemento": "Do lado do 102",
+    "valorAluguel": 1000.00,
+    "areaTotal": 100.00,
+    "qtdBanheiro": 1,
+    "qtdQuarto": 1,
+    "qtdSuite": 1,
+    "qtdGaragem": 1,
+    "qtdSala": 1,
+    "cozinha": true,
+    "areaServico": true,
+    "descricao": "Unidade com 1 quarto (suíte), 1 banheiro, 1 sala, cozinha e área de serviço",
+    "imgUrl": "https://res.cloudinary.com/dsbod6qvk/image/upload/v1758386321/809aeff2-e24d-47d7-81a3-b359515ada8b.png",
+    "status": 0,
+    "ativo": true,
+    "imovel": 1
+}
+
+### Atualizar unidade
+PUT http://localhost:8080/api/unidade/1 HTTP/1.1
+content-type: application/json
+
+{
+    "id": 1,
+    "identificacao": "Apt 104",
+    "bloco": "",
+    "complemento": "Do lado do 102",
+    "valorAluguel": 1000.00,
+    "areaTotal": 100.00,
+    "qtdBanheiro": 1,
+    "qtdQuarto": 1,
+    "qtdSuite": 1,
+    "qtdGaragem": 1,
+    "qtdSala": 1,
+    "cozinha": true,
+    "areaServico": true,
+    "descricao": "Unidade com 1 quarto (suíte), 1 banheiro, 1 sala, cozinha e área de serviço",
+    "imgUrl": "https://res.cloudinary.com/dsbod6qvk/image/upload/v1758386321/809aeff2-e24d-47d7-81a3-b359515ada8b.png",
+    "status": 0,
+    "ativo": true,
+    "imovel": 5
+}
+
+### Deletar unidade
+DELETE http://localhost:8080/api/unidade/4 HTTP/1.1

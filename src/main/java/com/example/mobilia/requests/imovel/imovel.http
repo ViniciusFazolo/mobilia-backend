@@ -1,0 +1,43 @@
+### Listar imovel por id
+GET http://localhost:8080/api/imovel/1 HTTP/1.1
+
+### Listar imoveis
+GET http://localhost:8080/api/imovel HTTP/1.1
+
+### Criar imovel
+POST http://localhost:8080/api/imovel HTTP/1.1
+content-type: application/json
+
+{
+    "nome": "Condominio Beira Mar",
+    "cep": "29945-600",
+    "estado": "ES",
+    "cidade": "São Mateus",
+    "bairro": "Guriri",
+    "rua": "Rua Barra de São Francisco",
+    "numero": 250,
+    "complemento": "Condominio",
+    "ativo": true,
+    "imgUrl": "https://res.cloudinary.com/dsbod6qvk/image/upload/v1758381214/836b0de9-4bd7-4ccd-b534-e0b218c5efae.png"
+}
+
+### Atualizar imovel
+PUT http://localhost:8080/api/imovel/1 HTTP/1.1
+content-type: application/json
+
+{
+    "id": 1,
+    "nome": "Condominio Beira Mar",
+    "cep": "29945-600",
+    "estado": "ES",
+    "cidade": "São Mateus",
+    "bairro": "Guriri",
+    "rua": "Rua Barra de São Francisco",
+    "numero": 250,
+    "complemento": "Condominio",
+    "ativo": true,
+    "imgUrl": "https://res.cloudinary.com/dsbod6qvk/image/upload/v1758381214/836b0de9-4bd7-4ccd-b534-e0b218c5efae.png"
+}
+
+### Deletar imovel
+DELETE http://localhost:8080/api/imovel/4 HTTP/1.1
