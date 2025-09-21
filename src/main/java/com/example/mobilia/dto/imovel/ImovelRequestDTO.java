@@ -1,5 +1,7 @@
 package com.example.mobilia.dto.imovel;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public record ImovelRequestDTO(
     Long id,
     String nome,
@@ -11,6 +13,6 @@ public record ImovelRequestDTO(
     Integer numero,
     String complemento,
     Boolean ativo,
-    String imgUrl) {
+    MultipartFile imagens) {
 
 }

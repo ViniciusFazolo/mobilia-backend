@@ -1,5 +1,7 @@
 package com.example.mobilia.dto.imovel;
 
+import java.util.List;
+
 public record ImovelResponseDTO(
     Long id,
     String nome,
@@ -11,6 +13,6 @@ public record ImovelResponseDTO(
     Integer numero,
     String complemento,
     Boolean ativo,
-    String imgUrl) {
+    String imagens) {
         
 }

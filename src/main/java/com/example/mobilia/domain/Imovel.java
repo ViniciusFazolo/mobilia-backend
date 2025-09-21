@@ -32,7 +32,7 @@ public class Imovel {
     private String rua;
     private Integer numero;
     private String complemento;
-    private String imgUrl;
+    private String imagem;
     private Boolean ativo;
 
     @Column(nullable = true, updatable = false)
