@@ -1,5 +1,9 @@
 package com.example.mobilia.dto.unidade;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.mobilia.domain.Unidade.StatusUnidade;
 
 public record UnidadeRequestDTO(
@@ -18,7 +22,7 @@ public record UnidadeRequestDTO(
     Boolean areaServico,
     StatusUnidade status,
     String descricao,
-    String imgUrl,
+    List<MultipartFile> imagens,
     Boolean ativo,
     Long imovel) {
 

@@ -1,6 +1,8 @@
 package com.example.mobilia.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,7 +52,7 @@ public class Unidade {
     @Enumerated(EnumType.STRING)
     private StatusUnidade status; 
 
-    private String imgUrl;
+    private List<String> imagens = new ArrayList<>();
     private Boolean ativo;
 
     @ManyToOne

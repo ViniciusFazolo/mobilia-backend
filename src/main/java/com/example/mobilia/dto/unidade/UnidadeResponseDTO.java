@@ -1,5 +1,7 @@
 package com.example.mobilia.dto.unidade;
 
+import java.util.List;
+
 import com.example.mobilia.domain.Imovel;
 import com.example.mobilia.domain.Unidade.StatusUnidade;
 
@@ -19,7 +21,7 @@ public record UnidadeResponseDTO(
     Boolean areaServico,
     StatusUnidade status,
     String descricao,
-    String imgUrl,
+    List<String> imagens,
     Boolean ativo,
     Imovel imovel) {
 
