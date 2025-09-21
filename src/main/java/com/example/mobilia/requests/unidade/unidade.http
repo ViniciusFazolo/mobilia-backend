@@ -6,52 +6,110 @@ GET http://localhost:8080/api/unidade HTTP/1.1
 
 ### Criar unidade
 POST http://localhost:8080/api/unidade HTTP/1.1
-content-type: application/json
+Content-Type: multipart/form-data; boundary=boundary
 
-{
-    "identificacao": "Apt 101",
-    "bloco": "",
-    "complemento": "Do lado do 102",
-    "valorAluguel": 1000.00,
-    "areaTotal": 100.00,
-    "qtdBanheiro": 1,
-    "qtdQuarto": 1,
-    "qtdSuite": 1,
-    "qtdGaragem": 1,
-    "qtdSala": 1,
-    "cozinha": true,
-    "areaServico": true,
-    "descricao": "Unidade com 1 quarto (suíte), 1 banheiro, 1 sala, cozinha e área de serviço",
-    "imgUrl": "https://res.cloudinary.com/dsbod6qvk/image/upload/v1758386321/809aeff2-e24d-47d7-81a3-b359515ada8b.png",
-    "status": 0,
-    "ativo": true,
-    "imovel": 1
-}
+--boundary
+Content-Disposition: form-data; name="identificacao"
+
+Apt 101
+--boundary
+Content-Disposition: form-data; name="bloco"
+
+A
+--boundary
+Content-Disposition: form-data; name="complemento"
+
+Do lado do 102
+--boundary
+Content-Disposition: form-data; name="valorAluguel"
+
+1000.00
+--boundary
+Content-Disposition: form-data; name="areaTotal"
+
+100.00
+--boundary
+Content-Disposition: form-data; name="qtdBanheiro"
+
+1
+--boundary
+Content-Disposition: form-data; name="qtdQuarto"
+
+1
+--boundary
+Content-Disposition: form-data; name="qtdSuite"
+
+1
+--boundary
+Content-Disposition: form-data; name="qtdGaragem"
+
+1
+--boundary
+Content-Disposition: form-data; name="qtdSala"
+
+1
+--boundary
+Content-Disposition: form-data; name="cozinha"
+
+true
+--boundary
+Content-Disposition: form-data; name="areaServico"
+
+true
+--boundary
+Content-Disposition: form-data; name="status"
+
+VAZIA
+--boundary
+Content-Disposition: form-data; name="descricao"
+
+Unidade com 1 quarto (suíte), 1 banheiro, 1 sala, cozinha e área de serviço
+--boundary
+Content-Disposition: form-data; name="ativo"
+
+true
+--boundary
+Content-Disposition: form-data; name="imovel"
+
+1
+--boundary
+Content-Disposition: form-data; name="imagens"; filename="foto minha.jpg"
+Content-Type: image/jpeg
+
+< ./foto minha.jpg
+--boundary
+Content-Disposition: form-data; name="imagens"; filename="image.png"
+Content-Type: image/png
+
+< ./image.png
+--boundary--
 
 ### Atualizar unidade
 PUT http://localhost:8080/api/unidade/1 HTTP/1.1
-content-type: application/json
+Content-Type: multipart/form-data; boundary=boundary
 
-{
-    "id": 1,
-    "identificacao": "Apt 104",
-    "bloco": "",
-    "complemento": "Do lado do 102",
-    "valorAluguel": 1000.00,
-    "areaTotal": 100.00,
-    "qtdBanheiro": 1,
-    "qtdQuarto": 1,
-    "qtdSuite": 1,
-    "qtdGaragem": 1,
-    "qtdSala": 1,
-    "cozinha": true,
-    "areaServico": true,
-    "descricao": "Unidade com 1 quarto (suíte), 1 banheiro, 1 sala, cozinha e área de serviço",
-    "imgUrl": "https://res.cloudinary.com/dsbod6qvk/image/upload/v1758386321/809aeff2-e24d-47d7-81a3-b359515ada8b.png",
-    "status": 0,
-    "ativo": true,
-    "imovel": 5
-}
+--boundary
+Content-Disposition: form-data; name="id"
+
+1
+--boundary
+Content-Disposition: form-data; name="identificacao"
+
+Apt 104
+--boundary
+Content-Disposition: form-data; name="imovel"
+
+1
+--boundary
+Content-Disposition: form-data; name="valorAluguel"
+
+1200.00
+--boundary
+Content-Disposition: form-data; name="imagens"; filename="foton-site.png"
+Content-Type: image/png
+
+< ./foton-site.png
+--boundary--
 
 ### Deletar unidade
 DELETE http://localhost:8080/api/unidade/4 HTTP/1.1

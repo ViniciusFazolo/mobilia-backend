@@ -6,38 +6,100 @@ GET http://localhost:8080/api/imovel HTTP/1.1
 
 ### Criar imovel
 POST http://localhost:8080/api/imovel HTTP/1.1
-content-type: application/json
+Content-Type: multipart/form-data; boundary=boundary
 
-{
-    "nome": "Condominio Beira Mar",
-    "cep": "29945-600",
-    "estado": "ES",
-    "cidade": "São Mateus",
-    "bairro": "Guriri",
-    "rua": "Rua Barra de São Francisco",
-    "numero": 250,
-    "complemento": "Condominio",
-    "ativo": true,
-    "imgUrl": "https://res.cloudinary.com/dsbod6qvk/image/upload/v1758381214/836b0de9-4bd7-4ccd-b534-e0b218c5efae.png"
-}
+--boundary
+Content-Disposition: form-data; name="nome"
 
+Condominio Beira Mar
+--boundary
+Content-Disposition: form-data; name="cep"
+
+29945-600
+--boundary
+Content-Disposition: form-data; name="estado"
+
+ES
+--boundary
+Content-Disposition: form-data; name="cidade"
+
+São Mateus
+--boundary
+Content-Disposition: form-data; name="bairro"
+
+Guriri
+--boundary
+Content-Disposition: form-data; name="rua"
+
+Rua Barra de São Francisco
+--boundary
+Content-Disposition: form-data; name="numero"
+
+250
+--boundary
+Content-Disposition: form-data; name="complemento"
+
+Condominio
+--boundary
+Content-Disposition: form-data; name="ativo"
+
+true
+--boundary
+Content-Disposition: form-data; name="imagens"; filename="image.png"
+Content-Type: image/png
+
+< ./image.png
+--boundary--
 ### Atualizar imovel
 PUT http://localhost:8080/api/imovel/1 HTTP/1.1
-content-type: application/json
+Content-Type: multipart/form-data; boundary=boundary
 
-{
-    "id": 1,
-    "nome": "Condominio Beira Mar",
-    "cep": "29945-600",
-    "estado": "ES",
-    "cidade": "São Mateus",
-    "bairro": "Guriri",
-    "rua": "Rua Barra de São Francisco",
-    "numero": 250,
-    "complemento": "Condominio",
-    "ativo": true,
-    "imgUrl": "https://res.cloudinary.com/dsbod6qvk/image/upload/v1758381214/836b0de9-4bd7-4ccd-b534-e0b218c5efae.png"
-}
+--boundary
+Content-Disposition: form-data; name="id"
+
+1
+--boundary
+Content-Disposition: form-data; name="nome"
+
+Condominio Beira Mar Reformado
+--boundary
+Content-Disposition: form-data; name="cep"
+
+29945-600
+--boundary
+Content-Disposition: form-data; name="estado"
+
+ES
+--boundary
+Content-Disposition: form-data; name="cidade"
+
+São Mateus
+--boundary
+Content-Disposition: form-data; name="bairro"
+
+Guriri
+--boundary
+Content-Disposition: form-data; name="rua"
+
+Rua Barra de São Francisco
+--boundary
+Content-Disposition: form-data; name="numero"
+
+250
+--boundary
+Content-Disposition: form-data; name="complemento"
+
+Condominio
+--boundary
+Content-Disposition: form-data; name="ativo"
+
+true
+--boundary
+Content-Disposition: form-data; name="imagens"; filename="foto minha.jpg"
+Content-Type: image/jpeg
+
+< ./foto minha.jpg
+--boundary--
 
 ### Deletar imovel
 DELETE http://localhost:8080/api/imovel/4 HTTP/1.1
