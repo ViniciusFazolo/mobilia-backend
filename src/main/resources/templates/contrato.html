@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contrato de Locação</title>
+    <style>
+        body {
+            font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            margin: 40px;
+            color: #000;
+        }
+        .titulo {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .clausula {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .clausula-titulo {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .assinatura {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .linha-assinatura {
+            border-bottom: 1px solid #000;
+            width: calc(100% - 40px);
+            margin: 20px auto;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+        .assinatura-item {
+            margin: 30px 0;
+            text-align: center;
+        }
+        .linha-assinatura-simples {
+            border-bottom: 1px solid #000;
+            width: calc(100% - 40px);
+            margin: 0 auto 5px auto;
+            height: 20px;
+        }
+        .nome-assinatura {
+            font-size: 11px;
+            margin-top: 5px;
+        }
+        .data-local {
+            text-align: center;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+        .paragrafo-unico {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="titulo">CONTRATO DE LOCAÇÃO</div>
+    
+    <div class="clausula">
+        Os signatários, que contratam na qualidade indicadas neste contrato, tem entre si, ajustada a presente locação, mediante as seguintes cláusulas e condições:
+    </div>
+
+    <div class="clausula">
+        <strong>I – LOCADOR (a)</strong> <span th:text="${contrato.locador.nome}">NOME DO LOCADOR</span>, brasileiro, 
+        em união estável, comerciante, 
+        portador do <strong> CPF: <span th:text="${contrato.locador.cpf}">000.000.000-00</span> </strong>
+        e <strong> RG: <span th:text="${contrato.locador.rg}">000.0000-XX</span> </strong>, 
+        residente e domiciliado na <strong> <span th:text="${contrato.locador.endereco}">Rua</span>, </strong>
+        Nº <span th:text="${contrato.locador.numero}">000</span>, 
+        Bairro: <span th:text="${contrato.locador.bairro}">Bairro</span> 
+        em <span th:text="${contrato.locador.cidade}">Cidade</span>- 
+        <span th:text="${contrato.locador.estado}">ES</span>.
+    </div>
+
+    <div class="clausula">
+        <strong>II – Locatário: <span th:text="${contrato.morador.nome}">NOME DO LOCATÁRIO</span> </strong>, 
+        localizado na <span th:text="${contrato.endereco}">Rua</span>, 
+        Bairro: <span th:text="${contrato.bairro}">Bairro</span>, 
+        neste município de <span th:text="${contrato.cidade}">Cidade</span> 
+        <span th:text="${contrato.estado}">ES</span>, 
+        portador do <strong> CPF: <span th:text="${contrato.morador.cpf}">000.000.000-00</span> </strong>
+        e <strong> RG: <span th:text="${contrato.morador.rg}">000.0000-XX</span> </strong>.
+    </div>
+
+    <div class="clausula">
+        <strong>III – OBJETO DE LOCAÇÃO:</strong> 
+        (<span th:text="${#numbers.formatInteger(contrato.qtd, 2)}">01</span>) 
+        <span th:switch="${contrato.objLocacao}">
+            <span th:case="'CASA_RESIDENCIAL'">uma casa residencial</span>
+            <span th:case="'APARTAMENTO_RESIDENCIAL'">um apartamento residencial</span>
+            <span th:case="'PONTO_COMERCIAL'">um ponto comercial</span>
+            <span th:case="*">um imóvel</span>
+        </span>
+        na <span th:text="${contrato.rua}">Rua</span>, 
+        no Bairro <span th:text="${contrato.bairro}">Bairro</span> 
+        em <span th:text="${contrato.cidade}">Cidade</span> 
+        <span th:text="${contrato.estado}">ES</span>.
+    </div>
+
+    <div class="clausula">
+        <strong>IV – PRAZO DA LOCAÇÃO:</strong> 
+        <span th:text="${#temporals.format(contrato.dataInicio, 'dd/MM/yyyy')}">00/00/0000</span> 
+        até <span th:text="${#temporals.format(contrato.dataFim, 'dd/MM/yyyy')}">00/00/0000</span>, 
+        com início no dia <span th:text="${#temporals.format(contrato.dataInicio, 'dd/MM/yyyy')}">00/00/0000</span> 
+        e o término dia <span th:text="${#temporals.format(contrato.dataFim, 'dd/MM/yyyy')}">00/00/0000</span>, 
+        podendo ser prorrogado em comum acordo.
+    </div>
+
+    <div class="clausula">
+        <strong>V – VALOR MENSAL DA LOCAÇÃO: 
+        R$ <span th:text="${#numbers.formatDecimal(contrato.valorAluguel, 1, 2)}">0,00</span> 
+        (<span th:text="${valorExtenso}">valor por extenso</span>), 
+        com reajuste anual sendo pago todo dia <span th:text="${contrato.dataVencimento.dayOfMonth}">00</span> 
+        de cada mês antecipado ao vencimento,</strong> na conta bancária do locador, Banco do Brasil, 
+        Nº da agência: 222-4, Nº da conta corrente: 11.503-7, São Mateus - ES, ou PIX, chave: 416.216.467-34.
+    </div>
+
+    <div class="clausula-titulo">CONDIÇÕES GERAIS</div>
+
+    <div class="clausula">
+        O (A) <strong>LOCADOR (a)</strong> Sendo proprietário (a) do imóvel descrito na cláusula III; resolve cedê-lo em locação mediante as cláusulas abaixo estipuladas:
+    </div>
+
+    <div class="clausula">
+        <strong>I –</strong> O valor mensal do aluguel deverá ser pago pelo LOCATÁRIO(a) até o dia após o vencimento sob pena de incorrer na multa contratual de (2%) dois por cento, e juros de 0,33% ao dia, até o limite de (10%) de dez por cento do aluguel, ou aluguéis vencidos independente do direito do LOCADOR(a) ajuizar a competente ação de despejo ou executiva de cobrança.
+    </div>
+
+    <div class="clausula">
+        <strong>II –</strong> No término da locação o LOCATÁRIO, se obriga a restituir o imóvel locado completamente desocupado, por sua iniciativa, independentemente de qualquer induzimento por parte do LOCADOR (a) em juízo ou fora dele.
+    </div>
+
+    <div class="clausula">
+        <strong>III –</strong> Todos os impostos, taxas e demais encargos ou tributos que recaiam sobre o imóvel, correção por conta do LOCATÁRIO (a) que se obriga a pagá-los sendo que o reajuste do aluguel será anual conforme a Lei do Governo Federal no índice do INPC.
+    </div>
+
+    <div class="clausula">
+        <strong>IV –</strong> Não é permitido a transferência deste contrato, no ato ou em parte sem prévio conhecimento do LOCADOR (a), bem como sublocação ou empréstimo do imóvel locado, mesmo que a transferência à sublocação e o empréstimo, parcial ou totalmente considerado.
+    </div>
+
+    <div class="clausula">
+        <strong>V –</strong> O (A) LOCATÁRIO (A) assume a obrigação de manter o imóvel em perfeito estado de conservação, asseio e higiene, bem como todas as instalações em perfeito estado de funcionamento, restituindo-o quando findo ou rescindindo este compromisso, tal como ora recebe sem danos ou faltas inclusive fechaduras, chaves, torneiras, pinturas, instalações sanitárias, hidráulicas, elétricas etc. tendo efetuado nesta data vistoria no imóvel ora alugado.
+        
+        <div class="paragrafo-unico">
+            <strong>PARÁGRAFO ÚNICO-</strong> Não fazer introdução de benfeitorias no imóvel, sejam elas úteis, necessárias ou voluntárias, sem prévio expresso consentimento do (a) LOCADOR (a) e por escrito, ciente que tais benfeitorias ficaram incorporadas ao imóvel sem exigência de ressarcimento ou retirada se for o caso.
+        </div>
+    </div>
+
+    <div class="clausula">
+        <strong>VI –</strong> Na hipótese de rescisão pedidas por qualquer das partes antes do término do prazo contratual estipulado neste instrumento a parte que pedir, deverá pagar uma multa equivalente à (03) três meses do valor do aluguel.
+    </div>
+
+    <div class="clausula">
+        <strong>VII –</strong> LOCATÁRIO (A) É responsável pelo consumo de água, luz, telefone etc. qualquer que seja a modalidade de sua cobrança, o qual obriga efetuar as respectivas contas.
+        
+        <div class="paragrafo-unico">
+            <strong>PARÁGRAFO ÚNICO-</strong> Facultar ao LOCADOR (A) ou seu representante legal examinar ou vistoriar o imóvel sempre que necessários solicitados.
+        </div>
+    </div>
+
+    <div class="clausula">
+        <strong>VIII –</strong> <strong>RESCISÃO CONTRATUAL:</strong> A infração de uma ou mais obrigações consignadas neste contrato, sem prejuízo de qualquer outra prevista em LEI, por parte do LOCADOR (A) e considerado como de natureza grave acarretando a rescisão contratual como consequência despejo e obrigatoriedade de imediata satisfação dos consectários contratuais legais.
+    </div>
+
+    <div class="clausula">
+        <strong>IX-</strong> <strong>RENOVAÇÃO:</strong> Obriga-se o locatário (a) a renovar expressamente, novo contrato caso vier permanecer no imóvel.
+    </div>
+
+    <div class="clausula">
+        <strong>X-</strong> <strong>INDENIZAÇÃO E DIREITO DE RETENÇÃO:</strong> Toda e qualquer benfeitoria autorizado pelo locador (a) ainda que útil e necessário ficará automaticamente incorporável no imóvel, não podendo o (a) pretender qualquer indenização ou ressarcimento, bem como arguir direito de retenção por elas.
+    </div>
+
+    <div class="clausula">
+        <strong>XI-</strong> <strong>VANTAGENS LEGAIS SUPERVINIENTES:</strong> A locação estará sempre sujeita ao regime do código civil Brasileiro e a Lei de n: 8.245 de 18/10/1991 ficando assegurada o (a) todos os direitos e vantagens conferida pela Legislação que vier a ser promulgada durante locação.
+    </div>
+
+    <div class="clausula">
+        <strong>XII-</strong> <strong>FORO:</strong> As partes contratantes elegem o foro da comarca de SÃO MATEUS - ES, para dirimir qualquer dúvida ou Litígio oriundo do presente contrato, e, por estarem justos e contratados, assim o presente instrumento em (02) duas vias teor na presença de (02) duas testemunhas abaixo.
+    </div>
+
+    <div class="data-local">
+        <span th:text="${contrato.cidade?.toUpperCase()}">CIDADE</span>/<span th:text="${contrato.estado?.toUpperCase()}">ES</span> 
+        <span th:text="${dataContratoFormatada}">00 DE MÊS DE 0000</span>
+    </div>
+
+    <div class="assinatura">
+        <div class="assinatura-item">
+            <div class="linha-assinatura-simples"></div>
+            <div class="nome-assinatura">
+                <strong>LOCADOR:</strong> <span th:text="${contrato.locador.nome?.toUpperCase()}">NOME DO LOCADOR</span><br>
+                CPF: <span th:text="${contrato.locador.cpf}">000.000.000-00</span><br>
+                <span th:text="${contrato.locador.email}">email@email.com</span>
+            </div>
+        </div>
+
+        <div class="assinatura-item">
+            <div class="linha-assinatura-simples"></div>
+            <div class="nome-assinatura">
+                <strong>LOCATÁRIO:</strong> <span th:text="${contrato.morador.nome?.toUpperCase()}">NOME DO LOCATÁRIO</span><br>
+                <span th:if="${contrato.morador.cpf != null}">CPF: <span th:text="${contrato.morador.cpf}">000.000.000-00</span></span>
+            </div>
+        </div>
+
+        <div class="assinatura-item">
+            <div class="linha-assinatura-simples"></div>
+            <div class="nome-assinatura">
+                <strong>AVALISTA:</strong><br>
+                CPF:
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
