@@ -45,10 +45,10 @@ Content-Disposition: form-data; name="ativo"
 
 true
 --boundary
-Content-Disposition: form-data; name="imagens"; filename="image.png"
-Content-Type: image/png
+Content-Disposition: form-data; name="imagens"; filename="foto minha.jpg"
+Content-Type: image/jpeg
 
-< ./image.png
+< ./foto minha.jpg
 --boundary--
 ### Atualizar imovel
 PUT http://localhost:8080/api/imovel/1 HTTP/1.1

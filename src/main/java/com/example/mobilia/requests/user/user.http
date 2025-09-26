@@ -1,0 +1,53 @@
+### Criar Usuário
+POST http://localhost:8080/api/user
+Content-Type: application/json
+
+{
+  "login": "Nelson",
+  "email": "nelson@gmail.com",
+  "nome": "Nelson Ferreira",
+  "pw": "123",
+  "ativo": true,
+  "cpf": "416.216.467-34",
+  "rg": "317.666-ES",
+  "endereco": "Rua Barra de São Francisco, 250",
+  "numero": "250",
+  "bairro": "Guriri Sul",
+  "cidade": "São Mateus",
+  "estado": "ES",
+  "cep": "29945-600",
+  "telefone": "(27) 99822-7242",
+  "userRole": 1
+}
+
+### Buscar Usuário por ID
+GET http://localhost:8080/api/user/1
+
+### Listar Todos os Usuários
+GET http://localhost:8080/api/user
+
+### Atualizar Usuário
+PUT http://localhost:8080/api/user/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "login": "usuario.teste.atualizado",
+  "email": "usuario.atualizado@teste.com",
+  "nome": "Usuário Teste Atualizado",
+  "pw": "novaSenha123",
+  "ativo": true,
+  "cpf": "123.456.789-00",
+  "rg": "12.345.678-9",
+  "endereco": "Rua das Palmeiras, 456",
+  "numero": "456",
+  "bairro": "Jardins",
+  "cidade": "São Paulo",
+  "estado": "SP",
+  "cep": "01234-890",
+  "telefone": "(11) 88888-8888",
+  "userRole": 2
+}
+
+### Deletar Usuário
+DELETE http://localhost:8080/api/user/1

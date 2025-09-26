@@ -1,0 +1,25 @@
+### Criar User Role
+POST http://localhost:8080/api/userrole
+Content-Type: application/json
+
+{
+  "descricao": "Administrador"
+}
+
+### Buscar User Role por ID
+GET http://localhost:8080/api/userrole/1
+
+### Listar Todos os User Roles
+GET http://localhost:8080/api/userrole
+
+### Atualizar User Role
+PUT http://localhost:8080/api/userrole/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "descricao": "Administrador do Sistema"
+}
+
+### Deletar User Role
+DELETE http://localhost:8080/api/userrole/1

@@ -1,5 +1,5 @@
 ### Listar unidade por id
-GET http://localhost:8080/api/unidade/1 HTTP/1.1
+GET http://localhost:8080/api/unidade/2 HTTP/1.1
 
 ### Listar unidades
 GET http://localhost:8080/api/unidade HTTP/1.1
@@ -78,10 +78,10 @@ Content-Type: image/jpeg
 
 < ./foto minha.jpg
 --boundary
-Content-Disposition: form-data; name="imagens"; filename="image.png"
+Content-Disposition: form-data; name="imagens"; filename="foton-site.png"
 Content-Type: image/png
 
-< ./image.png
+< ./foton-site.png
 --boundary--
 
 ### Atualizar unidade
@@ -112,4 +112,4 @@ Content-Type: image/png
 --boundary--
 
 ### Deletar unidade
-DELETE http://localhost:8080/api/unidade/4 HTTP/1.1
+DELETE http://localhost:8080/api/unidade/1 HTTP/1.1
