@@ -36,8 +36,18 @@ public class User implements UserDetails {
     private String email;
 
     private String nome;
+    private String cpf;
+    private String rg;
+    private String endereco;
+    private String numero;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String cep;
+    private String telefone;
+    
     private String pw;
-    private Boolean ativo;
+    private Boolean ativo = true;
 
     @Column(nullable = true, updatable = false)
     private LocalDateTime dtCadastro;
@@ -52,6 +62,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (userRole == null || userRole.getId() == null) {
+            return List.of(new SimpleGrantedAuthority("ROLE_USUARIO")); 
+        }
+        
         if (userRole.getId() == 1)
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
         else if (userRole.getId() == 2)

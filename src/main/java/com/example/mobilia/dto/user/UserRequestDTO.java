@@ -7,6 +7,15 @@ public record UserRequestDTO(
                 String nome,
                 String pw,
                 Boolean ativo,
+                String cpf,
+                String rg,
+                String endereco,
+                String numero,
+                String bairro,
+                String cidade,
+                String estado,
+                String cep,
+                String telefone,
                 Integer userRole) {
 
 }
