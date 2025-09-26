@@ -1,7 +1,5 @@
 package com.example.mobilia.dto.imovel;
 
-import java.util.List;
-
 public record ImovelResponseDTO(
     Long id,
     String nome,

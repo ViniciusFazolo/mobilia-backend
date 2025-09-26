@@ -33,7 +33,7 @@ public class Imovel {
     private Integer numero;
     private String complemento;
     private String imagem;
-    private Boolean ativo;
+    private Boolean ativo = true;
 
     @Column(nullable = true, updatable = false)
     private LocalDateTime dtCadastro;
