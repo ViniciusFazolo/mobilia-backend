@@ -31,8 +31,7 @@ public class Morador {
     private String telefone;
     private String cpf;
     private String rg;
-    private LocalDate dtNascimento;
-    private Boolean ativo;
+    private Boolean ativo = true;
 
     // Contrato
     private LocalDate dtVencimento;
