@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -52,8 +54,11 @@ public class Unidade {
     @Enumerated(EnumType.STRING)
     private StatusUnidade status; 
 
+    @ElementCollection
+    @CollectionTable(name = "unidade_imagens", joinColumns = @JoinColumn(name = "unidade_id"))
+    @Column(name = "imagem_url")
     private List<String> imagens = new ArrayList<>();
-    private Boolean ativo;
+    private Boolean ativo = true;
 
     @ManyToOne
     @JoinColumn(name = "imovel_id", nullable = false)
