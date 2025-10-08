@@ -39,7 +39,7 @@ public class AuthController {
 
         String token = tokenService.generateToken(usuario);
         return ResponseEntity.ok()
-                .body(new LoginResponseDTO(usuario.getLogin(), usuario.getUserRole().getId(), token));
+                .body(new LoginResponseDTO(usuario.getId(), usuario.getLogin(), usuario.getUserRole().getId(), token));
     }
 
     @PostMapping("/register")
