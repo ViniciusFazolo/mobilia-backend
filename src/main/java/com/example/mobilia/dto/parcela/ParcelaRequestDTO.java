@@ -1,0 +1,17 @@
+package com.example.mobilia.dto.parcela;
+
+import java.time.LocalDate;
+
+import com.example.mobilia.domain.Parcela.StatusParcela;
+
+public record ParcelaRequestDTO(
+    Long id,
+    Long contrato,
+    Integer numeroParcela,
+    LocalDate dataVencimento,
+    Double valor,
+    LocalDate dataPagamento,
+    StatusParcela status
+) {
+
+}
