@@ -14,7 +14,6 @@ public record ContratoRequestDTO(
     Double valorDeposito,
     ObjetoLocacao objLocacao,
     Integer qtd,
-    String endereco,
     String cidade,
     String estado,
     String cep,

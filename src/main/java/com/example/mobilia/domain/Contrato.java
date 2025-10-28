@@ -39,7 +39,6 @@ public class Contrato {
     @Enumerated(EnumType.STRING)
     private ObjetoLocacao objLocacao;
     private Integer qtd;
-    private String endereco;
     private String cidade;
     private String estado;
     private String cep;

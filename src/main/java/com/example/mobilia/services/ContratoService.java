@@ -1,6 +1,7 @@
 package com.example.mobilia.services;
 
 import java.io.ByteArrayOutputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -13,6 +14,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import com.example.mobilia.domain.Contrato;
 import com.example.mobilia.domain.Imovel;
 import com.example.mobilia.domain.Morador;
+import com.example.mobilia.domain.Parcela;
+import com.example.mobilia.domain.Parcela.StatusParcela;
 import com.example.mobilia.domain.Unidade;
 import com.example.mobilia.domain.User;
 import com.example.mobilia.dto.contrato.ContratoRequestDTO;
@@ -21,6 +24,7 @@ import com.example.mobilia.mapper.ContratoMapper;
 import com.example.mobilia.repository.ContratoRepository;
 import com.example.mobilia.repository.ImovelRepository;
 import com.example.mobilia.repository.MoradorRepository;
+import com.example.mobilia.repository.ParcelaRepository;
 import com.example.mobilia.repository.UnidadeRepository;
 import com.example.mobilia.repository.UserRepository;
 import com.itextpdf.html2pdf.HtmlConverter;
@@ -36,9 +40,9 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
     private final ContratoMapper contratoMapper;
     private final SpringTemplateEngine templateEngine;
     private final CloudinaryService cloudinaryService;
-    
+    private final ParcelaRepository parcelaRepository;
 
-    public ContratoService(ContratoRepository repository, MoradorRepository moradorRepository, UnidadeRepository unidadeRepository, ImovelRepository imovelRepository, ContratoMapper contratoMapper, SpringTemplateEngine templateEngine, UserRepository userRepository, CloudinaryService cloudinaryService) {
+    public ContratoService(ContratoRepository repository, MoradorRepository moradorRepository, UnidadeRepository unidadeRepository, ImovelRepository imovelRepository, ContratoMapper contratoMapper, SpringTemplateEngine templateEngine, UserRepository userRepository, CloudinaryService cloudinaryService, ParcelaRepository parcelaRepository) {
         super(repository, contratoMapper);
         this.contratoRepository = repository;
         this.moradorRepository = moradorRepository;
@@ -48,6 +52,7 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
         this.templateEngine = templateEngine;
         this.userRepository = userRepository;
         this.cloudinaryService = cloudinaryService;
+        this.parcelaRepository = parcelaRepository;
     }
 
     public List<ContratoResponseDTO> getByMoradorId(Long id) {
@@ -82,6 +87,8 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
         String caminhoPdf = gerarEUploadPdfContrato(contrato);
         contrato.setPdfContrato(caminhoPdf);
         contrato = contratoRepository.save(contrato);
+
+        gerarParcelasContrato(contrato);
         
         return contratoMapper.toDto(contrato);
     }
@@ -181,6 +188,30 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
         }
         
         contratoRepository.deleteById(id);
+    }
+
+    private void gerarParcelasContrato(Contrato contrato) {
+        LocalDate dataInicio = contrato.getDataInicio();
+        LocalDate dataFim = contrato.getDataFim();
+        LocalDate dataVencimento = contrato.getDataVencimento();
+        Double valorAluguel = contrato.getValorAluguel();
+        
+        int numeroParcela = 1;
+        LocalDate dataVencimentoParcela = dataInicio.withDayOfMonth(dataVencimento.getDayOfMonth());
+        
+        while (!dataVencimentoParcela.isAfter(dataFim)) {
+            Parcela parcela = new Parcela();
+            parcela.setContrato(contrato);
+            parcela.setNumeroParcela(numeroParcela);
+            parcela.setDataVencimento(dataVencimentoParcela);
+            parcela.setValor(valorAluguel);
+            parcela.setStatus(StatusParcela.PENDENTE);
+            
+            parcelaRepository.save(parcela);
+            
+            numeroParcela++;
+            dataVencimentoParcela = dataVencimentoParcela.plusMonths(1);
+        }
     }
     
     public String converter(double valor) {
