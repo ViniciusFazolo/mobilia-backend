@@ -22,8 +22,5 @@ public interface ContratoMapper extends IGenericMapper<ContratoRequestDTO, Contr
     
     @Override
     @Mapping(source = "locador", target = "userId")
-    @Mapping(source = "morador", target = "moradorId")
-    @Mapping(source = "unidade", target = "unidadeId")
-    @Mapping(source = "imovel", target = "imovelId")
     ContratoResponseDTO toDto(Contrato obj);
 }

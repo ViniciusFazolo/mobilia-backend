@@ -26,7 +26,7 @@ public record ContratoResponseDTO(
     String rua,
     Integer numero,
     User userId,
-    Morador moradorId,
-    Unidade unidadeId,
-    Imovel imovelId) {
+    Morador morador,
+    Unidade unidade,
+    Imovel imovel) {
 }
