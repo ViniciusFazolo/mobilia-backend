@@ -3,6 +3,7 @@ package com.example.mobilia.services;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.stereotype.Service;
@@ -47,6 +48,13 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
         this.templateEngine = templateEngine;
         this.userRepository = userRepository;
         this.cloudinaryService = cloudinaryService;
+    }
+
+    public List<ContratoResponseDTO> getByMoradorId(Long id) {
+        return this.contratoRepository.findAllByMorador_Id(id)
+            .stream()
+            .map(this.contratoMapper::toDto)
+            .toList();
     }
     
     @Override

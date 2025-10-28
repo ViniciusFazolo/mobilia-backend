@@ -1,6 +1,8 @@
 package com.example.mobilia.controller;
 
 
+import java.util.List;
+
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -59,4 +61,10 @@ public class ContratoController extends GenericController<ContratoRequestDTO, Co
             throw new RuntimeException("Erro ao visualizar PDF: " + e.getMessage(), e);
         }
     }
+
+    @GetMapping("/byMoradorId/{id}")
+    public ResponseEntity<List<ContratoResponseDTO>> getByMoradorId(@PathVariable Long id){
+        return ResponseEntity.ok().body(service.getByMoradorId(id));
+    }
+
 }
