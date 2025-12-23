@@ -14,7 +14,6 @@ public record MoradorRequestDTO(
     LocalDate dtVencimento,
     LocalDate dtInicio,
     LocalDate dtFim,
-    Long unidade,
-    Long imovel) {
+    Long unidade) {
 
 }

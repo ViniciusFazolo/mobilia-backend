@@ -14,4 +14,8 @@ public interface UnidadeMapper extends IGenericMapper<UnidadeRequestDTO, Unidade
     @Mapping(source = "imovel", target = "imovel.id")
     @Mapping(target = "imagens", ignore = true)
     Unidade toEntity(UnidadeRequestDTO obj);
+
+    @Override
+    @Mapping(source = "imagens", target = "imagens")
+    UnidadeResponseDTO toDto(Unidade obj);
 }

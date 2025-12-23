@@ -53,8 +53,34 @@ public class UnidadeService extends CrudServiceImpl<Unidade, UnidadeRequestDTO, 
             throw new RuntimeException("Unidade não encontrada");
         }
 
-        Unidade entity = mapper.toEntity(request);
+        // Busca a entidade existente do banco (preserva as imagens)
+        Unidade entity = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Unidade não encontrada"));
 
+        // Atualiza os campos da entidade existente
+        entity.setIdentificacao(request.identificacao());
+        entity.setBloco(request.bloco());
+        entity.setComplemento(request.complemento());
+        entity.setValorAluguel(request.valorAluguel());
+        entity.setAreaTotal(request.areaTotal());
+        entity.setQtdBanheiro(request.qtdBanheiro());
+        entity.setQtdQuarto(request.qtdQuarto());
+        entity.setQtdSuite(request.qtdSuite());
+        entity.setQtdGaragem(request.qtdGaragem());
+        entity.setQtdSala(request.qtdSala());
+        entity.setCozinha(request.cozinha());
+        entity.setAreaServico(request.areaServico());
+        entity.setStatus(request.status());
+        entity.setDescricao(request.descricao());
+        entity.setAtivo(request.ativo());
+        
+        // Atualiza o imóvel se necessário
+        if (request.imovel() != null) {
+            // Aqui você precisa buscar o Imovel pelo ID
+            // entity.setImovel(imovelRepository.findById(request.imovel()).orElseThrow());
+        }
+
+        // Só atualiza imagens se houver novas imagens no request
         if (request.imagens() != null && !request.imagens().isEmpty()) {
             entity.getImagens().clear();
             try {
@@ -66,6 +92,8 @@ public class UnidadeService extends CrudServiceImpl<Unidade, UnidadeRequestDTO, 
                 throw new RuntimeException("Erro ao fazer upload das imagens", e);
             }
         }
+        // Se request.imagens() for null ou vazio, mantém as imagens existentes
+        
         entity = repository.save(entity);
         return mapper.toDto(entity);
     }

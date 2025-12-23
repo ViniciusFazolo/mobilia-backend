@@ -12,7 +12,7 @@ public interface MoradorMapper extends IGenericMapper<MoradorRequestDTO, Morador
 
     @Override
     @Mapping(source = "unidade", target = "unidade.id")
-    @Mapping(source = "imovel", target = "imovel.id")
+    @Mapping(target = "imovel", ignore = true)
     Morador toEntity(MoradorRequestDTO obj);
 
 }

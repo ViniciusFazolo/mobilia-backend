@@ -51,13 +51,27 @@ public class ImovelService extends CrudServiceImpl<Imovel, ImovelRequestDTO, Imo
         }
 
         try {
-            Imovel entity = mapper.toEntity(request);
-            entity.setId(id);
+            // Busca a entidade existente do banco (preserva a imagem)
+            Imovel entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Imóvel não encontrado"));
 
+            // Atualiza os campos da entidade existente
+            entity.setNome(request.nome());
+            entity.setCep(request.cep());
+            entity.setEstado(request.estado());
+            entity.setCidade(request.cidade());
+            entity.setBairro(request.bairro());
+            entity.setRua(request.rua());
+            entity.setNumero(request.numero());
+            entity.setComplemento(request.complemento());
+            entity.setAtivo(request.ativo());
+
+            // Só atualiza imagem se houver uma nova imagem no request
             if (request.imagens() != null && !request.imagens().isEmpty()) {
                 String url = cloudinaryService.uploadFile(request.imagens());
                 entity.setImagem(url);
             }
+            // Se request.imagens() for null ou vazio, mantém a imagem existente
 
             entity = repository.save(entity);
             return mapper.toDto(entity);

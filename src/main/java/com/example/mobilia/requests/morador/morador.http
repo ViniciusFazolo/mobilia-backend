@@ -19,8 +19,7 @@ content-type: application/json
     "dtVencimento": "2025-01-01",
     "dtInicio": "2025-01-01",
     "dtFim": "2025-01-01",
-    "unidade": 2,
-    "imovel": 1
+    "unidade": 2
 }
 
 ### Atualizar morador
@@ -39,8 +38,7 @@ content-type: application/json
     "dtVencimento": "2025-01-01",
     "dtInicio": "2025-01-01",
     "dtFim": "2025-01-01",
-    "unidade": 1,
-    "imovel": 5
+    "unidade": 1
 }
 
 ### Deletar morador

@@ -16,7 +16,7 @@ public interface ImovelMapper extends IGenericMapper<ImovelRequestDTO, ImovelRes
     Imovel toEntity(ImovelRequestDTO obj);
 
     @Override
-    @Mapping(target = "imagens", ignore = true)
+    @Mapping(source = "imagem", target = "imagens")
     ImovelResponseDTO toDto(Imovel obj);
 
 }
