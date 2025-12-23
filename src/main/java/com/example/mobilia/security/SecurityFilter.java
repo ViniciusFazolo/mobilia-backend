@@ -28,6 +28,13 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         var token = this.recoverToken(request);
+        
+        // Se não houver token, continua sem autenticação (para permitir endpoints públicos)
+        if (token == null || token.isEmpty()) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
         var login = tokenService.validateToken(token);
 
         if (login != null) {
@@ -35,7 +42,11 @@ public class SecurityFilter extends OncePerRequestFilter {
                     .orElseThrow(() -> new PadraoException("Usuário não encontrado"));
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else {
+            // Se o token for inválido, limpa o contexto para evitar autenticação anônima
+            SecurityContextHolder.clearContext();
         }
+        
         filterChain.doFilter(request, response);
     }
 

@@ -16,9 +16,11 @@ content-type: application/json
     "rg": "123456789",
     "dtNascimento": "1990-01-01",
     "ativo": true,
-    "dtVencimento": "2025-01-01",
-    "dtInicio": "2025-01-01",
-    "dtFim": "2025-01-01",
+    "rua": "Rua Heitor Salles Nogueira",
+    "bairro": "São Vicente",
+    "cep": "29700-450",
+    "cidade": "Colatina",
+    "estado": "ES",
     "unidade": 2
 }
 
@@ -35,9 +37,11 @@ content-type: application/json
     "rg": "123456789",
     "dtNascimento": "1990-01-01",
     "ativo": true,
-    "dtVencimento": "2025-01-01",
-    "dtInicio": "2025-01-01",
-    "dtFim": "2025-01-01",
+    "rua": "Rua das Flores",
+    "bairro": "Centro",
+    "cep": "01234-567",
+    "cidade": "São Paulo",
+    "estado": "SP",
     "unidade": 1
 }
 

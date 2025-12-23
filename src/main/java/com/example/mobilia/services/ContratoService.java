@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.StreamSupport;
 
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
@@ -27,6 +28,7 @@ import com.example.mobilia.repository.MoradorRepository;
 import com.example.mobilia.repository.ParcelaRepository;
 import com.example.mobilia.repository.UnidadeRepository;
 import com.example.mobilia.repository.UserRepository;
+import com.example.mobilia.utils.SecurityUtils;
 import com.itextpdf.html2pdf.HtmlConverter;
 
 @Service
@@ -41,8 +43,9 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
     private final SpringTemplateEngine templateEngine;
     private final CloudinaryService cloudinaryService;
     private final ParcelaRepository parcelaRepository;
+    private final SecurityUtils securityUtils;
 
-    public ContratoService(ContratoRepository repository, MoradorRepository moradorRepository, UnidadeRepository unidadeRepository, ImovelRepository imovelRepository, ContratoMapper contratoMapper, SpringTemplateEngine templateEngine, UserRepository userRepository, CloudinaryService cloudinaryService, ParcelaRepository parcelaRepository) {
+    public ContratoService(ContratoRepository repository, MoradorRepository moradorRepository, UnidadeRepository unidadeRepository, ImovelRepository imovelRepository, ContratoMapper contratoMapper, SpringTemplateEngine templateEngine, UserRepository userRepository, CloudinaryService cloudinaryService, ParcelaRepository parcelaRepository, SecurityUtils securityUtils) {
         super(repository, contratoMapper);
         this.contratoRepository = repository;
         this.moradorRepository = moradorRepository;
@@ -53,34 +56,57 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
         this.userRepository = userRepository;
         this.cloudinaryService = cloudinaryService;
         this.parcelaRepository = parcelaRepository;
+        this.securityUtils = securityUtils;
     }
 
     public List<ContratoResponseDTO> getByMoradorId(Long id) {
+        User currentUser = securityUtils.getCurrentUser();
+        // Verifica se o morador pertence ao usuário
+        Morador morador = moradorRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Morador não encontrado"));
+        
+        if (!morador.getUser().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("Você não tem permissão para acessar contratos deste morador");
+        }
+        
         return this.contratoRepository.findAllByMorador_Id(id)
             .stream()
+            .filter(contrato -> contrato.getLocador().getId().equals(currentUser.getId()))
             .map(this.contratoMapper::toDto)
             .toList();
     }
     
     @Override
     public ContratoResponseDTO create(ContratoRequestDTO dto) {
+        User currentUser = securityUtils.getCurrentUser();
+        
         Morador morador = moradorRepository.findById(dto.morador())
             .orElseThrow(() -> new RuntimeException("Morador não encontrado"));
         
-        Unidade unidade = unidadeRepository.findById(dto.unidade())
-            .orElseThrow(() -> new RuntimeException("Unidade não encontrada"));
+        // Verifica se o morador pertence ao usuário
+        if (!morador.getUser().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("Você não tem permissão para criar contrato com este morador");
+        }
         
-        Imovel imovel = imovelRepository.findById(dto.imovel())
-            .orElseThrow(() -> new RuntimeException("Imóvel não encontrado"));
-
-        User user = userRepository.findById(dto.user())
-            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        // Obtém a unidade e imóvel automaticamente a partir do morador
+        Unidade unidade = morador.getUnidade();
+        Imovel imovel = morador.getImovel();
+        
+        // Verifica se a unidade e imóvel pertencem ao usuário (validação adicional)
+        if (!unidade.getUser().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("A unidade do morador não pertence ao usuário autenticado");
+        }
+        
+        if (!imovel.getUser().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("O imóvel do morador não pertence ao usuário autenticado");
+        }
         
         Contrato contrato = contratoMapper.toEntity(dto);
         contrato.setMorador(morador);
         contrato.setUnidade(unidade);
         contrato.setImovel(imovel);
-        contrato.setLocador(user);
+        // Usa o usuário autenticado como locador
+        contrato.setLocador(currentUser);
         contrato = contratoRepository.save(contrato);
         
         // Gerar PDF
@@ -95,26 +121,51 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
     
     @Override
     public ContratoResponseDTO update(Long id, ContratoRequestDTO dto) {
+        User currentUser = securityUtils.getCurrentUser();
         Contrato contrato = contratoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Contrato não encontrado"));
+        
+        // Verifica se o contrato pertence ao usuário
+        if (!contrato.getLocador().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("Você não tem permissão para atualizar este contrato");
+        }
         
         // Atualizar dados básicos
         contrato.setDataInicio(dto.dataInicio());
         contrato.setDataFim(dto.dataFim());
         contrato.setDataVencimento(dto.dataVencimento());
-        contrato.setValorAluguel(dto.valorAluguel());
         contrato.setValorDeposito(dto.valorDeposito());
         
-        // Atualizar dados do locatário se fornecidos
-        if (dto.user() != null) {
-            contrato.setLocador(userRepository.findById(dto.user())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado")));
-        }
+        // Não permite alterar o locador - sempre será o usuário autenticado
+        // O locador não pode ser alterado via update
 
-        // Atualizar dados do locador se fornecidos
+        // Atualizar dados do morador se fornecidos
         if (dto.morador() != null) {
-            contrato.setMorador(moradorRepository.findById(dto.morador())
-                .orElseThrow(() -> new RuntimeException("Morador não encontrado")));
+            Morador morador = moradorRepository.findById(dto.morador())
+                .orElseThrow(() -> new RuntimeException("Morador não encontrado"));
+            
+            // Verifica se o morador pertence ao usuário
+            if (!morador.getUser().getId().equals(currentUser.getId())) {
+                throw new RuntimeException("Você não tem permissão para usar este morador");
+            }
+            
+            contrato.setMorador(morador);
+            
+            // Atualiza automaticamente a unidade e imóvel a partir do morador
+            Unidade unidade = morador.getUnidade();
+            Imovel imovel = morador.getImovel();
+            
+            // Verifica se a unidade e imóvel pertencem ao usuário
+            if (!unidade.getUser().getId().equals(currentUser.getId())) {
+                throw new RuntimeException("A unidade do morador não pertence ao usuário autenticado");
+            }
+            
+            if (!imovel.getUser().getId().equals(currentUser.getId())) {
+                throw new RuntimeException("O imóvel do morador não pertence ao usuário autenticado");
+            }
+            
+            contrato.setUnidade(unidade);
+            contrato.setImovel(imovel);
         }
         
         // Regenerar PDF se necessário
@@ -134,7 +185,7 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
             context.setVariable("unidade", contrato.getUnidade());
             context.setVariable("morador", contrato.getMorador());
             context.setVariable("locador", contrato.getLocador());
-            context.setVariable("valorExtenso", converter(contrato.getValorAluguel()));
+            context.setVariable("valorExtenso", converter(contrato.getUnidade().getValorAluguel()));
             Locale localeBR = Locale.forLanguageTag("pt-BR");   
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", localeBR);
             context.setVariable("dataContratoFormatada", contrato.getDataInicio().format(formatter).toUpperCase());
@@ -160,8 +211,14 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
     }
 
     public byte[] downloadPdf(Long id) {
+        User currentUser = securityUtils.getCurrentUser();
         Contrato contrato = contratoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Contrato não encontrado"));
+        
+        // Verifica se o contrato pertence ao usuário
+        if (!contrato.getLocador().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("Você não tem permissão para acessar este contrato");
+        }
         
         if (contrato.getPdfContrato() == null) {
             throw new RuntimeException("PDF do contrato não foi gerado");
@@ -175,10 +232,46 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
     }
     
     @Override
+    public Iterable<ContratoResponseDTO> getAll() {
+        User currentUser = securityUtils.getCurrentUser();
+        Iterable<Contrato> entities = contratoRepository.findAllByLocador_Id(currentUser.getId());
+
+        return StreamSupport.stream(entities.spliterator(), false)
+                .map(contratoMapper::toDto)
+                .toList();
+    }
+    
+    @Override
+    public ContratoResponseDTO getById(Long id) {
+        User currentUser = securityUtils.getCurrentUser();
+        Contrato entity = contratoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Contrato não encontrado"));
+        
+        if (!entity.getLocador().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("Você não tem permissão para acessar este contrato");
+        }
+        
+        return contratoMapper.toDto(entity);
+    }
+
+    @Override
     public void delete(Long id) {
+        User currentUser = securityUtils.getCurrentUser();
         Contrato contrato = contratoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Contrato não encontrado"));
         
+        // Verifica se o contrato pertence ao usuário
+        if (!contrato.getLocador().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("Você não tem permissão para excluir este contrato");
+        }
+        
+        // 1. Deletar todas as parcelas relacionadas ao contrato
+        List<Parcela> parcelas = parcelaRepository.findAllByContrato_Id(id);
+        for (Parcela parcela : parcelas) {
+            parcelaRepository.deleteById(parcela.getId());
+        }
+        
+        // 2. Deletar PDF do Cloudinary se existir
         if (contrato.getPdfContrato() != null && !contrato.getPdfContrato().isEmpty()) {
             try {
                 cloudinaryService.deleteFileByUrl(contrato.getPdfContrato());
@@ -187,6 +280,7 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
             }
         }
         
+        // 3. Deletar o contrato
         contratoRepository.deleteById(id);
     }
 
@@ -194,7 +288,7 @@ public class ContratoService extends CrudServiceImpl<Contrato, ContratoRequestDT
         LocalDate dataInicio = contrato.getDataInicio();
         LocalDate dataFim = contrato.getDataFim();
         LocalDate dataVencimento = contrato.getDataVencimento();
-        Double valorAluguel = contrato.getValorAluguel();
+        Double valorAluguel = contrato.getUnidade().getValorAluguel();
         
         int numeroParcela = 1;
         LocalDate dataVencimentoParcela = dataInicio.withDayOfMonth(dataVencimento.getDayOfMonth());

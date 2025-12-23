@@ -1,6 +1,5 @@
 package com.example.mobilia.domain;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -33,10 +32,12 @@ public class Morador {
     private String rg;
     private Boolean ativo = true;
 
-    // Contrato
-    private LocalDate dtVencimento;
-    private LocalDate dtInicio;
-    private LocalDate dtFim;
+    // Endereço
+    private String rua;
+    private String bairro;
+    private String cep;
+    private String cidade;
+    private String estado;
 
     @ManyToOne
     @JoinColumn(name = "unidade_id", nullable = false)
@@ -45,6 +46,10 @@ public class Morador {
     @ManyToOne
     @JoinColumn(name = "imovel_id", nullable = false)
     private Imovel imovel;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     private LocalDateTime dtCadastro;
 

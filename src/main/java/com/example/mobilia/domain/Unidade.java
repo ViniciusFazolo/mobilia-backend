@@ -64,6 +64,10 @@ public class Unidade {
     @JoinColumn(name = "imovel_id", nullable = false)
     private Imovel imovel;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @Column(nullable = true, updatable = false)
     private LocalDateTime dtCadastro;
 

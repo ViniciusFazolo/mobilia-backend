@@ -6,21 +6,11 @@ Content-Type: application/json
   "dataInicio": "2024-01-01",
   "dataFim": "2024-12-31",
   "dataVencimento": "2024-01-05",
-  "valorAluguel": 1500.00,
   "valorDeposito": 1500.00,
-  "objLocacao": 1,
+  "objLocacao": "APARTAMENTO_RESIDENCIAL",
   "qtd": 1,
-  "endereco": "Rua Heitor Salles Nogueira",
-  "cidade": "Colatina",
-  "estado": "ES",
-  "cep": "29700-450",
-  "bairro": "São Vicente",
-  "rua": "Rua Heitor Salles Nogueira",
-  "numero": 456,
   "user": 1,
-  "morador": 1,
-  "unidade": 1,
-  "imovel": 1
+  "morador": 1
 }
 
 ### Buscar Contrato por ID
@@ -38,21 +28,11 @@ Content-Type: application/json
   "dataInicio": "2024-01-01",
   "dataFim": "2024-12-31",
   "dataVencimento": "2024-01-05",
-  "valorAluguel": 1600.00,
   "valorDeposito": 1600.00,
   "objLocacao": "APARTAMENTO_RESIDENCIAL",
   "qtd": 1,
-  "endereco": "Rua das Flores, 123",
-  "cidade": "São Paulo",
-  "estado": "SP",
-  "cep": "01234-567",
-  "bairro": "Centro",
-  "rua": "Rua das Flores",
-  "numero": 123,
   "user": 1,
-  "morador": 1,
-  "unidade": 1,
-  "imovel": 1
+  "morador": 1
 }
 
 ### Download PDF do Contrato

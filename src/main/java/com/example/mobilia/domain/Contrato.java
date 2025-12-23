@@ -31,7 +31,6 @@ public class Contrato {
     private LocalDate dataInicio;
     private LocalDate dataFim;
     private LocalDate dataVencimento;
-    private Double valorAluguel;
     private Double valorDeposito;
     private Boolean status;
 
@@ -39,12 +38,6 @@ public class Contrato {
     @Enumerated(EnumType.STRING)
     private ObjetoLocacao objLocacao;
     private Integer qtd;
-    private String cidade;
-    private String estado;
-    private String cep;
-    private String bairro;
-    private String rua;
-    private Integer numero;
     
     // Dados do locatário
     @ManyToOne

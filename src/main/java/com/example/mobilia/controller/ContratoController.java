@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,6 +67,15 @@ public class ContratoController extends GenericController<ContratoRequestDTO, Co
     @GetMapping("/byMoradorId/{id}")
     public ResponseEntity<List<ContratoResponseDTO>> getByMoradorId(@PathVariable Long id){
         return ResponseEntity.ok().body(service.getByMoradorId(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (!service.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        service.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

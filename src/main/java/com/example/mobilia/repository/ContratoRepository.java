@@ -10,4 +10,7 @@ import com.example.mobilia.domain.Contrato;
 @Repository
 public interface ContratoRepository extends JpaRepository<Contrato, Long> {
     List<Contrato> findAllByMorador_Id(Long id);
+    List<Contrato> findAllByLocador_Id(Long userId);
+    List<Contrato> findAllByImovel_Id(Long imovelId);
+    List<Contrato> findAllByUnidade_Id(Long unidadeId);
 }

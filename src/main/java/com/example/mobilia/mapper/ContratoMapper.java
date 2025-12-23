@@ -11,10 +11,10 @@ import com.example.mobilia.dto.contrato.ContratoResponseDTO;
 public interface ContratoMapper extends IGenericMapper<ContratoRequestDTO, ContratoResponseDTO, Contrato> {
     
     @Override
-    @Mapping(source = "imovel", target = "imovel.id")
-    @Mapping(source = "unidade", target = "unidade.id")
     @Mapping(source = "morador", target = "morador.id")
     @Mapping(source = "user", target = "locador.id")
+    @Mapping(target = "unidade", ignore = true)
+    @Mapping(target = "imovel", ignore = true)
     @Mapping(target = "dtCadastro", ignore = true)
     @Mapping(target = "pdfContrato", ignore = true)
     @Mapping(target = "status", ignore = true)

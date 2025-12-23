@@ -11,9 +11,11 @@ public record MoradorRequestDTO(
     String rg,
     LocalDate dtNascimento,
     Boolean ativo,
-    LocalDate dtVencimento,
-    LocalDate dtInicio,
-    LocalDate dtFim,
+    String rua,
+    String bairro,
+    String cep,
+    String cidade,
+    String estado,
     Long unidade) {
 
 }

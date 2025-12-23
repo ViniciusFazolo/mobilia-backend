@@ -83,10 +83,10 @@
 
     <div class="clausula">
         <strong>II – Locatário: <span th:text="${contrato.morador.nome}">NOME DO LOCATÁRIO</span> </strong>, 
-        localizado na <span th:text="${contrato.rua}">Rua</span>, 
-        Bairro: <span th:text="${contrato.bairro}">Bairro</span>, 
-        neste município de <span th:text="${contrato.cidade}">Cidade</span> 
-        <span th:text="${contrato.estado}">ES</span>, 
+        localizado na <span th:text="${contrato.morador.rua}">Rua</span>, 
+        Bairro: <span th:text="${contrato.morador.bairro}">Bairro</span>, 
+        neste município de <span th:text="${contrato.morador.cidade}">Cidade</span> 
+        <span th:text="${contrato.morador.estado}">ES</span>, 
         portador do <strong> CPF: <span th:text="${contrato.morador.cpf}">000.000.000-00</span> </strong>
         e <strong> RG: <span th:text="${contrato.morador.rg}">000.0000-XX</span> </strong>.
     </div>
@@ -100,10 +100,10 @@
             <span th:case="'PONTO_COMERCIAL'">um ponto comercial</span>
             <span th:case="*">um imóvel</span>
         </span>
-        na <span th:text="${contrato.rua}">Rua</span>, 
-        no Bairro <span th:text="${contrato.bairro}">Bairro</span> 
-        em <span th:text="${contrato.cidade}">Cidade</span> 
-        <span th:text="${contrato.estado}">ES</span>.
+        na <span th:text="${contrato.unidade.imovel.rua}">Rua</span>, 
+        no Bairro <span th:text="${contrato.unidade.imovel.bairro}">Bairro</span> 
+        em <span th:text="${contrato.unidade.imovel.cidade}">Cidade</span> 
+        <span th:text="${contrato.unidade.imovel.estado}">ES</span>.
     </div>
 
     <div class="clausula">
@@ -117,7 +117,7 @@
 
     <div class="clausula">
         <strong>V – VALOR MENSAL DA LOCAÇÃO: 
-        R$ <span th:text="${#numbers.formatDecimal(contrato.valorAluguel, 1, 2)}">0,00</span> 
+        R$ <span th:text="${#numbers.formatDecimal(contrato.unidade.valorAluguel, 1, 2)}">0,00</span> 
         (<span th:text="${valorExtenso}">valor por extenso</span>), 
         com reajuste anual sendo pago todo dia <span th:text="${contrato.dataVencimento.dayOfMonth}">00</span> 
         de cada mês antecipado ao vencimento,</strong> na conta bancária do locador, Banco do Brasil, 
@@ -187,7 +187,7 @@
     </div>
 
     <div class="data-local">
-        <span th:text="${contrato.cidade?.toUpperCase()}">CIDADE</span>/<span th:text="${contrato.estado?.toUpperCase()}">ES</span> 
+        <span th:text="${contrato.morador.cidade?.toUpperCase()}">CIDADE</span>/<span th:text="${contrato.morador.estado?.toUpperCase()}">ES</span> 
         <span th:text="${dataContratoFormatada}">00 DE MÊS DE 0000</span>
     </div>
 
