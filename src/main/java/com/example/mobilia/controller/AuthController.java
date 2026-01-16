@@ -34,8 +34,9 @@ public class AuthController {
         User usuario = repository.findByLogin(request.login())
                 .orElseThrow(() -> new PadraoException("Usuário ou senha incorretos"));
 
-        if (!passwordEncoder.matches(request.senha(), usuario.getPw()))
-            new PadraoException("Usuário ou senha incorretos");
+        if (!passwordEncoder.matches(request.senha(), usuario.getPw())) {
+            throw new PadraoException("Usuário ou senha incorretos");
+        }
 
         String token = tokenService.generateToken(usuario);
         return ResponseEntity.ok()

@@ -9,7 +9,13 @@ public class CorsConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200", "https://aluguei-jfm934dxd-nelsonfjuniors-projects.vercel.app/")
-                .allowedMethods("GET", "POST", "PUT", "DELETE");
+                .allowedOrigins(
+                    "http://localhost:4200", 
+                    "https://aluguei-qmsa5n0vp-nelsonfjuniors-projects.vercel.app"
+                )
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }

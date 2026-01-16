@@ -20,8 +20,22 @@ public class CloudinaryService {
     }
 
     public String uploadFile(MultipartFile file) throws IOException {
-        Map<?, ?> result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-        return result.get("secure_url").toString();
+        try {
+            // Converter MultipartFile para byte[] para evitar problemas com ChannelInputStream
+            byte[] fileBytes = file.getBytes();
+            
+            // Criar um mapa com opções de upload
+            Map<String, Object> params = new HashMap<>();
+            params.put("resource_type", "auto"); // auto-detecta o tipo (image, video, raw)
+            
+            // Upload usando byte array
+            @SuppressWarnings("unchecked")
+            Map<String, Object> result = cloudinary.uploader().upload(fileBytes, params);
+            return result.get("secure_url").toString();
+        } catch (Exception e) {
+            System.err.println("Erro no upload Cloudinary: " + e.getMessage());
+            throw new IOException("Falha ao subir arquivo para nuvem", e);
+        }
     }
 
     public void deleteFileByUrl(String fileUrl) throws IOException {
